@@ -1,5 +1,8 @@
 
-# CANalyzer Mimic Pro
+# CANalyzer Mimic Pro    
+![Build Status](https://github.com/kiranj26/CANalyzer-Mimic-Pro/actions/workflows/build.yml/badge.svg)
+![Code Quality](https://img.shields.io/badge/code%20quality-pylint-brightgreen)](https://www.pylint.org/)
+
 
 Welcome to CANalyzer Mimic Pro! This repository is a personal project to create a tool inspired by professional CAN analyzers, designed for visualizing and analyzing CAN bus logs.
 
