@@ -1,0 +1,16 @@
+[MESSAGES CONTROL]
+disable=
+    C0114,  # Missing module docstring
+    C0116,  # Missing function or method docstring
+    R0903,  # Too few public methods
+    C0103,  # Variable name doesn't conform to snake_case naming style
+    C0301,  # Line too long
+
+[FORMAT]
+max-line-length=100
+
+[DESIGN]
+max-attributes=10
+
+[REPORTS]
+output-format=colorized
