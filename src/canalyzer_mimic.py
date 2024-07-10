@@ -55,7 +55,7 @@ class CANLogAnalyzer:
         author_label = Label(self.root, text="Author: Kiran Jojare", font=("Helvetica", 12), bg='#2C3E50', fg='#ECF0F1')
         author_label.pack(pady=10)
 
-        can_image_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'can_image.png')
+        can_image_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'can_image.png')  # Corrected path
         can_image = Image.open(can_image_path)
         can_image = can_image.resize((300, 150), Image.LANCZOS)
         self.can_photo = ImageTk.PhotoImage(can_image)
@@ -86,10 +86,11 @@ class CANLogAnalyzer:
                 self.df = pd.read_csv(
                     self.log_file,
                     sep=r'\s+',
-                    names=['Timestamp', 'Bus', 'ID', 'DLC', 'Data'],
+                    names=['Timestamp', 'ID', 'DLC', 'Data'],
                     dtype={'ID': str, 'Data': str},  # Ensure ID and Data are read as strings
                     engine='python'
                 )
+                logging.debug("Loaded DataFrame: \n%s", self.df.head())
                 self.df['Timestamp'] = self.df['Timestamp'].astype(float)
                 self.split_data_column()
                 self.file_label.config(text=f"Loaded file: {self.log_file}")
@@ -108,6 +109,7 @@ class CANLogAnalyzer:
             data_split = data_split.reindex(columns=range(8), fill_value=float('nan'))
             for i in range(8):
                 self.df[f'Byte_{i}'] = pd.to_numeric(data_split[i], errors='coerce')
+            logging.debug("Data after splitting: \n%s", self.df.head())
         except Exception as e:
             logging.error(f"Failed to split 'Data' column: {e}")
             messagebox.showerror("Error", f"Failed to split 'Data' column: {e}")
@@ -164,6 +166,7 @@ class CANLogAnalyzer:
             df_filtered = self.df[self.df['ID'].str.strip().str.upper() == signal.upper()]
             if df_filtered.empty:
                 continue
+            logging.debug("Plotting data for signal: %s", signal)
             color = self.colors.get(signal, None)
             for i in range(8):
                 ax.plot(df_filtered['Timestamp'], df_filtered[f'Byte_{i}'], label=f'{signal} Byte {i}', color=color)
